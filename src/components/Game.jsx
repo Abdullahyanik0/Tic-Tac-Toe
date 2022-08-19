@@ -6,6 +6,7 @@ const TicTacToe = () => {
   const [cells, setCells] = useState(Array(9).fill(""));
   const [winner, setWinner] = useState();
   const [movement, setMovement] = useState(9);
+  const [last, setLast] = useState();
 
   const checkForWinner = (squares) => {
     let combos = {
@@ -47,6 +48,7 @@ const TicTacToe = () => {
         }
       });
     }
+    localStorage.setItem("turn", squares);
   };
 
   const handleClick = (num) => {
@@ -74,6 +76,8 @@ const TicTacToe = () => {
     setWinner(null);
     setCells(Array(9).fill(""));
     setMovement(9);
+    localStorage.setItem("winner", winner);
+    setLast(winner);
   };
 
   const Cell = ({ num }) => {
@@ -94,7 +98,7 @@ const TicTacToe = () => {
         <>
           <Confetti />
           <div className="flex flex-col justify-center items-center gap-y-6">
-            <p className=" text-6xl">Winner {winner}</p>
+            <p className=" text-6xl xs:text-3xl ">Winner {winner}</p>
             <button
               className="text-xl w-40 bg-gray-700 p-1 hover:bg-gray-500 rounded-full"
               onClick={() => handleRestart()}
@@ -126,6 +130,7 @@ const TicTacToe = () => {
               </div>
             </div>
             <div className="text-2xl xs:text-xl ">{movement} movement left</div>
+            {last && <div>Last winner : {last}</div>}
           </div>
         </div>
       )}
